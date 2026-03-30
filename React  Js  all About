@@ -1,0 +1,274 @@
+What Is React Js :-
+React Ek JavaScript Ki Library Hai JO User Interface Baane Hai Liye Use Hote hai Jo Especially Website bane Ke Liye Hota hai
+Pehle normal JavaScript me har baar manually HTML change karna padta tha
+document.getElementById("count").innerText = count;
+
+Jisse kya HOta hai Hamra  na App Baada Ho Jaata hai React me ham Apne Ul Ko Alag Compontes me Tod date ha hai jaise likhe Navbar And SideBar ANd Button ChatBOx
+
+
+Iski Jarut Is Liye paddi kYo Jo hamre Large Application Hote hai VO Baar Normal Js Manage Nahi Kara Sakhta hai Baar baar Dom Update karne se Hamre Jo UlBhoot Jaada Slow Ho jaata hai Isme React Kya Karna apne ek alag Dom Baanta hai Jo Uske State Or Hook se Help Se mane hota hai hota Jisse Bolte hai Virtual Dom Virtual Dom Kya karta hai Vo Fast Update hote hai or Vo hi part Update karta Ho uske state manage karte hai """"Isi compare karne ko “diffing” bolte hain aur jo sirf changed part update hota hai usko “reconciliation” bolte hain """"
+
+
+
+
+
+
+Library and FrameWork :-
+Thoda sa sahi hai. Library me basic cheez milti hai, baaki jo chahiye woh alag se install karna padta hai.
+
+Example: React sirf UI banane ke liye hai. Agar routing chahiye toh alag se React Router install karna padta hai. State management ke liye alag se Redux Toolkit.
+
+Framework me bahut cheezein pehle se built-in hoti hain. Jaise Next.js me routing already milta hai, optimization milta hai, SSR milta hai
+
+
+Component :-
+Component React Most and main Part Hote jisse hamre Ul alag Part me devide ho  jaate hai jisse Ham APne state management and Bhootham reuseable baan sakhte hai
+
+
+
+Jsx:-JavaScript XML Bolte hai Isme help Se Ham Apne HTML ke Code Apne JavaScript Me Likh sakhte  Hai
+
+
+Like Sntax
+
+function Harsh() {
+  const [user, setUser] = useState("Harsh Thakur");
+
+  function change() {
+    setUser("Harshu");
+  }
+
+  return (
+    <>
+      <h1>{user}</h1>
+      <button onClick={change}>Button</button>
+    </>
+  );
+}
+
+export default Harsh;
+
+
+Export Default and export and import:-
+Export Defaul tab karte hai jab ek file ko ek dusre file me bhjene like  ek component ko Export tab karte hai jab kis function ko bhjene hamko import kisse file me use kartna hoo
+
+Functional aur Class Component me difference
+
+Functional component ek normal JavaScript function hota hai jo JSX return karta hai. Class component ek class hoti hai jo React.Component ko extend karti hai. Pehle state aur lifecycle ke liye class component use hota tha, lekin ab hooks (useState, useEffect) ki wajah se functional component zyada use hote hain kyunki ye simple, readable aur easy hote hain
+
+
+
+Props:-
+Props ka mtlab Hote Hai React me "properties" Props Ki Help Se ham Ek component Se durse Component Me Data Bhje sakhte hai yha Le sakhte Hai Props ka use parent component se child component ko data pass karne ke liye hota hai. Props read-only hote hain, child component unhe change nahi kar sakta
+
+
+Example:-
+Parent Function :-
+// Parent.js
+import Child from "./Child";
+
+function Parent() {
+  return (
+    <>
+      <h1>Parent Component</h1>
+
+      <Child 
+        name="Harshu"
+        age={22}
+      />
+    </>
+  );
+}
+
+export default Parent;
+
+
+CHild Component :-
+// Child.js
+function Child(props) {
+  return (
+    <>
+      <h2>Name: {props.name}</h2>
+      <h2>Age: {props.age}</h2>
+    </>
+  );
+}
+
+export default Child;
+
+normally parent re-render hoga toh child bhi re-render hoga, chahe props ki value same hi kyu na ho.
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>+</button>
+      <Child name="Harshu" />
+    </>
+  );
+}
+
+ahan button click karne par Parent re-render hoga, aur Child bhi dubara chalega even though name="Harshu" same hai.
+
+Agar child ko unnecessary re-render se bachana ho toh React.memo use karte hain:
+
+
+Example:-
+
+
+const Child = React.memo(function Child({ name }) {
+  return <h1>{name}</h1>;
+});
+
+Ab child tabhi re-render hoga jab prop ki value change hogi.
+
+
+
+
+/////Most:-
+Ham Child Se parent Ko Value Bhj Sakhte Hai par Ham Change nahi kar sakhte bas value Bhje sakhte hai 
+
+
+
+Exmple:-
+// Parent
+function Parent() {
+  const [name, setName] = useState("Harshu");
+
+  function changeName(newName) {
+    setName(newName);
+  }
+
+  return <Child changeName={changeName} />;
+}
+
+
+
+// Child
+function Child({ changeName }) {
+  return (
+    <button onClick={() => changeName("Harsh Thakur")}>
+      Change
+    </button>
+  );
+}
+
+
+
+Par Ham yeh Nhai Kar sakhte hai 
+
+
+// Parent
+function Parent() {
+  const [name, setName] = useState("Harshu");
+
+  return <Child name={name} />;
+}
+
+// Child
+function Child({ name }) {
+  function wrongChange() {
+    name = "Harsh Thakur"; // ❌ Error
+  }
+
+  return <button onClick={wrongChange}>Change</button>;
+}
+
+Yeh galat hai kyunki name prop read-only hota hai. Child directly:
+
+
+
+Default Value:-
+Default Value se jab kabhi parent se koi value nahi milte hai to ham apni tarfa se value de dete hai
+
+// Parent Component
+function App() {
+  return (
+    <>
+      <Child />
+      <Child name="Rahul" />
+    </>
+  );
+}
+
+export default App;
+
+
+// Child Component
+function Child({ name = "Harshu" }) {
+  return <h1>Hello {name}</h1>;
+}
+
+export default Child;
+
+
+Output:
+
+Pehle Child me parent ne name nahi bheja, isliye "Harshu" use hoga
+Dusre Child me "Rahul" bheja, isliye "Rahul" aayega 
+
+Hello Harshu
+Hello Rahul
+
+
+
+
+Babel V/S Webpack:-
+
+Babel:-
+Babel JSX aur naye JavaScript code ko purane browser-compatible JavaScript me convert karta hai.
+Browser JSX aur kuch modern JS syntax nahi samajhta, isliye Babel translation karta hai.
+
+
+
+Webpack:-
+
+Webpack project ki saari JS, CSS, image aur component files ko mila kar final bundle banata hai.
+Webpack automatically imported files ko combine karta hai aur browser ko ek packed file deta hai.
+
+
+
+
+
+State:-
+state ek special variable hota hai jisme React updated value store karta hai. Normal variable change karne se UI update nahi hoti, par state change karne se component dubara render hota hai aur nayi value dikhti hai.
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  function increase() {
+    setCount(count + 1);
+  }
+
+  return (
+    <>
+      <h1>{count}</h1>
+      <button onClick={increase}>+1</button>
+    </>
+  );
+}
+
+
+State updates asynchronous hote hain:- State updates asynchronous hote hain” ka matlab React state ko turant update nahi karta. Pehle current function complete hota hai, fir React state update karta hai aur component re-render karta hai.
+
+State React component ki internal changing value hoti hai. Iska use tab karte hain jab UI me koi value time ke saath change hoti ho, jaise counter, input, login status.
+
+const [count, setCount] = useState(0);
+
+Yahan count state hai aur setCount usko update karta hai.
+
+State direct change nahi karte, setCount use karte hain. Jab state update hoti hai, component dobara render hota hai aur UI me new value dikhne lagti hai.
+
+Flow:
+
+Pehle component render hota hai with count = 0
+setCount(count + 1) call hota hai
+React update request store karta hai
+Function complete hota hai
+Fir component second time render hota hai with updated value
+
+Isliye total 2 render hote hain:
+
+Initial render
+State change ke baad rende
+
