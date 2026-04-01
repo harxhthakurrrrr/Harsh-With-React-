@@ -423,5 +423,27 @@ export default FileUpload;
 
 
 
-React Hooks
+React Hooks:-
+Hooks React Me Ek Build IN Function Special Function Hote hai Jo Hamre Function COmponesnts Me State and Side Effect Lifecycle Ko use and Aur Dusre  React Feacture Ko Use karne Dete hai Phle yeh Sab Feature ham Class Componenste Me Hote Tha Ab hooks Ki Wajhe Se functional Componenst me bhi Kar sakhte hai Class Compont kis Bina ham React Feature ko Use kar sakhte hai hook ke  help se Jo hamre Promafce Optimations lke  liye hote the 
+
+
+🔑 Hooks के Golden Rules (ये Interview में जरूर पूछते हैं)
+
+    Only call hooks at the top level
+    Hooks को loops, conditions, या nested functions के अंदर call नहीं कर सकते। हमेशा component के top level पर call करें।
+    Reason: React को hooks के call order पर निर्भर रहना होता है।
+
+    Only call hooks from React functions
+    Hooks को सिर्फ functional components या custom hooks के अंदर call करें। Normal JavaScript functions में नहीं।
+
+Hooks क्यों आए?  kyo jab class se kaam hota tha to 
+
+Hooks isliye aaye kyunki class components me code complex ho jaata tha.
+
+Problems:
+
+this samajhna mushkil
+Lifecycle methods me same code repeat hota tha
+Logic reuse karna hard tha
+Code lamba aur confusing ho jaata tha
 
