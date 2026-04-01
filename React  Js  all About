@@ -72,7 +72,7 @@ function Parent() {
     <>
       <h1>Parent Component</h1>
 
-      <Child 
+      <Child
         name="Harshu"
         age={22}
       />
@@ -126,7 +126,7 @@ Ab child tabhi re-render hoga jab prop ki value change hogi.
 
 
 /////Most:-
-Ham Child Se parent Ko Value Bhj Sakhte Hai par Ham Change nahi kar sakhte bas value Bhje sakhte hai 
+Ham Child Se parent Ko Value Bhj Sakhte Hai par Ham Change nahi kar sakhte bas value Bhje sakhte hai
 
 
 
@@ -155,7 +155,7 @@ function Child({ changeName }) {
 
 
 
-Par Ham yeh Nhai Kar sakhte hai 
+Par Ham yeh Nhai Kar sakhte hai
 
 
 // Parent
@@ -205,7 +205,7 @@ export default Child;
 Output:
 
 Pehle Child me parent ne name nahi bheja, isliye "Harshu" use hoga
-Dusre Child me "Rahul" bheja, isliye "Rahul" aayega 
+Dusre Child me "Rahul" bheja, isliye "Rahul" aayega
 
 Hello Harshu
 Hello Rahul
@@ -270,5 +270,158 @@ Fir component second time render hota hai with updated value
 Isliye total 2 render hote hain:
 
 Initial render
-State change ke baad rende
+State change ke baad render
+
+
+
+
+
+
+
+Conditional Rendering:-
+Conditional Rendering Ka  Mtab Hote Hai Kisse Condition ke base par UL Dekhne React Me Yeh Bikul JavaScript Ki taraha Kaam karta hai kyoki Jsx Ke Pass Apna JavaScript Expreession Hote hai Iska Mtlab Hota hai (JavaScript Ke Code Html Me Likhna {} Help se ) 
+
+
+
+
+
+Example:-
+
+
+import React from 'react';
+import { useState } from 'react'
+
+function App(){
+  const isLogin = True;
+  
+}
+
+  return (
+   <>
+     {isLogin ? "Welcome User " : "Sign - in"}
+   </>
+  )
+}
+
+export default App
+
+
+
+function App() {
+  const isLogin = true;
+  const name = "";
+
+  return (
+    <>
+      {/* && */}
+      {isLogin && <h1>Welcome</h1>}
+
+      {/* || */}
+      <h2>{name || "Guest"}</h2>
+    </>
+  );
+}
+
+export default App;
+
+
+
+List Rendering + key :-
+list Rendering Hote Hai Har item Ko Unipque Id  Dekhne ke liye kyoki jiase ham Js Kya hote jab kuch updated karte the To hamre Dom Vo update ho jaata tha React me virtual Dom aaya Theek hai Virtual Dom yeh  hua ki jo chj be add karte hai yaha remove karte hai Har Baar unique Id mil jaate hai Vo Hi part update ho jata hai Isme 
+List rendering = array ke items ko UI me dikhana
+key = har item ko unique pehchan dena
+React ka Virtual DOM jab compare karta hai, tab key ki help se samajhta hai kaunsa item naya hai, kaunsa delete hua aur kaunsa same hai.
+
+
+
+
+Example:-
+users.map(user => <h1 key={user.id}>{user.name}</h1>)
+
+Yahan key={user.id} ki wajah se React sirf wahi item update karega jo badla hai.
+
+
+function App() {
+  const users = [
+    { id: 1, name: "Harshu" },
+    { id: 2, name: "Rahul" },
+    { id: 3, name: "Priya" }
+  ];
+
+  return (
+    <>
+      {users.map((user) => (
+        <h1 key={user.id}>{user.name}</h1>
+      ))}
+    </>
+  );
+}
+
+export default App;
+
+
+Controlled vs Uncontrolled Components :-
+
+Controlled Components :-
+Controlled Hote hai Vo Components Hote hai jisme React Ke Form Ke Value hai Vo State Ke Help se  Control Hote hai jaise Html me kya hote tha ki hamre jo state ki value the Vo hamra Brower Control karta hai agar uski value ko store yaha Ham dom  manipulation se Control karate the or acces be karte the isse yeh disadvantage the jab ham Voi value change yaha update karte the Vo hamra Pura dom Render Hote tha jisse Ul heavy Ho jaata tha  React yeh sab chj resolve kar diye isse aona kud control compont jo sirf use part ko update  karega jisse hamre state control kar agar hamre state ki value update  hote hai yaha change hote vo sirf use part ko update karta tha jis part me hamne change pure dom ko update nahi karta Ham isse apne value ko aram se access and change kar sakhte the 
+
+
+Example :-
+import { useState } from "react";
+
+export default function form() {
+  const [name, setName] = useState("");
+
+  function handleChange(event) {
+    setName(event.target.value);
+  }
+
+  return (
+    <>
+      <h1>Type Your Name :</h1>
+      <input
+        type="text"
+        value={name}
+        onChange={handleChange}
+        placeholder="Enter name"
+      />
+      <p>My Name Is :{name} </p>
+    </>
+  );
+}
+
+ Uncontrolled Component :- useRef tab use karte hain jab value chahiye ho par uski wajah se component re-render na ho.
+Uncontrolled component वह form element (जैसे <input>) है जिसकी value React state से control नहीं होती, बल्कि DOM खुद manage करता है।
+हम ref के जरिए जरूरत पड़ने पर (जैसे submit पर) value लेते हैं।  Haan. Controlled component me Harsh likhne par har letter par render hoga:
+
+H → render
+Ha → render
+Har → render
+
+Uncontrolled component me input likhte waqt React render nahi karta. Bas initial render hota hai.
+Example :- import { useRef } from "react";
+
+function FileUpload() {
+  const fileRef = useRef();
+
+  function handleFile() {
+    const file = fileRef.current.files[0];
+
+    console.log(file.name);
+  }
+
+  return (
+    <>
+      <input type="file" ref={fileRef} />
+      {console.log(fileRef)}
+      <button onClick={handleFile}>Show File Name</button>
+    </>
+  );
+}
+
+export default FileUpload;
+
+
+
+React Hooks
 
