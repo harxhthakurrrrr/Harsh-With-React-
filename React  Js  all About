@@ -279,7 +279,7 @@ State change ke baad render
 
 
 Conditional Rendering:-
-Conditional Rendering Ka  Mtab Hote Hai Kisse Condition ke base par UL Dekhne React Me Yeh Bikul JavaScript Ki taraha Kaam karta hai kyoki Jsx Ke Pass Apna JavaScript Expreession Hote hai Iska Mtlab Hota hai (JavaScript Ke Code Html Me Likhna {} Help se ) 
+Conditional Rendering Ka  Mtab Hote Hai Kisse Condition ke base par UL Dekhne React Me Yeh Bikul JavaScript Ki taraha Kaam karta hai kyoki Jsx Ke Pass Apna JavaScript Expreession Hote hai Iska Mtlab Hota hai (JavaScript Ke Code Html Me Likhna {} Help se )
 
 
 
@@ -293,7 +293,7 @@ import { useState } from 'react'
 
 function App(){
   const isLogin = True;
-  
+ 
 }
 
   return (
@@ -327,7 +327,7 @@ export default App;
 
 
 List Rendering + key :-
-list Rendering Hote Hai Har item Ko Unipque Id  Dekhne ke liye kyoki jiase ham Js Kya hote jab kuch updated karte the To hamre Dom Vo update ho jaata tha React me virtual Dom aaya Theek hai Virtual Dom yeh  hua ki jo chj be add karte hai yaha remove karte hai Har Baar unique Id mil jaate hai Vo Hi part update ho jata hai Isme 
+list Rendering Hote Hai Har item Ko Unipque Id  Dekhne ke liye kyoki jiase ham Js Kya hote jab kuch updated karte the To hamre Dom Vo update ho jaata tha React me virtual Dom aaya Theek hai Virtual Dom yeh  hua ki jo chj be add karte hai yaha remove karte hai Har Baar unique Id mil jaate hai Vo Hi part update ho jata hai Isme
 List rendering = array ke items ko UI me dikhana
 key = har item ko unique pehchan dena
 React ka Virtual DOM jab compare karta hai, tab key ki help se samajhta hai kaunsa item naya hai, kaunsa delete hua aur kaunsa same hai.
@@ -363,7 +363,7 @@ export default App;
 Controlled vs Uncontrolled Components :-
 
 Controlled Components :-
-Controlled Hote hai Vo Components Hote hai jisme React Ke Form Ke Value hai Vo State Ke Help se  Control Hote hai jaise Html me kya hote tha ki hamre jo state ki value the Vo hamra Brower Control karta hai agar uski value ko store yaha Ham dom  manipulation se Control karate the or acces be karte the isse yeh disadvantage the jab ham Voi value change yaha update karte the Vo hamra Pura dom Render Hote tha jisse Ul heavy Ho jaata tha  React yeh sab chj resolve kar diye isse aona kud control compont jo sirf use part ko update  karega jisse hamre state control kar agar hamre state ki value update  hote hai yaha change hote vo sirf use part ko update karta tha jis part me hamne change pure dom ko update nahi karta Ham isse apne value ko aram se access and change kar sakhte the 
+Controlled Hote hai Vo Components Hote hai jisme React Ke Form Ke Value hai Vo State Ke Help se  Control Hote hai jaise Html me kya hote tha ki hamre jo state ki value the Vo hamra Brower Control karta hai agar uski value ko store yaha Ham dom  manipulation se Control karate the or acces be karte the isse yeh disadvantage the jab ham Voi value change yaha update karte the Vo hamra Pura dom Render Hote tha jisse Ul heavy Ho jaata tha  React yeh sab chj resolve kar diye isse aona kud control compont jo sirf use part ko update  karega jisse hamre state control kar agar hamre state ki value update  hote hai yaha change hote vo sirf use part ko update karta tha jis part me hamne change pure dom ko update nahi karta Ham isse apne value ko aram se access and change kar sakhte the
 
 
 Example :-
@@ -422,9 +422,9 @@ function FileUpload() {
 export default FileUpload;
 
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 React Hooks:-
-Hooks React Me Ek Build IN Function Special Function Hote hai Jo Hamre Function COmponesnts Me State and Side Effect Lifecycle Ko use and Aur Dusre  React Feacture Ko Use karne Dete hai Phle yeh Sab Feature ham Class Componenste Me Hote Tha Ab hooks Ki Wajhe Se functional Componenst me bhi Kar sakhte hai Class Compont kis Bina ham React Feature ko Use kar sakhte hai hook ke  help se Jo hamre Promafce Optimations lke  liye hote the 
+Hooks React Me Ek Build IN Function Special Function Hote hai Jo Hamre Function COmponesnts Me State and Side Effect Lifecycle Ko use and Aur Dusre  React Feacture Ko Use karne Dete hai Phle yeh Sab Feature ham Class Componenste Me Hote Tha Ab hooks Ki Wajhe Se functional Componenst me bhi Kar sakhte hai Class Compont kis Bina ham React Feature ko Use kar sakhte hai hook ke  help se Jo hamre Promafce Optimations lke  liye hote the
 
 
 🔑 Hooks के Golden Rules (ये Interview में जरूर पूछते हैं)
@@ -436,7 +436,7 @@ Hooks React Me Ek Build IN Function Special Function Hote hai Jo Hamre Function 
     Only call hooks from React functions
     Hooks को सिर्फ functional components या custom hooks के अंदर call करें। Normal JavaScript functions में नहीं।
 
-Hooks क्यों आए?  kyo jab class se kaam hota tha to 
+Hooks क्यों आए?  kyo jab class se kaam hota tha to
 
 Hooks isliye aaye kyunki class components me code complex ho jaata tha.
 
@@ -447,3 +447,335 @@ Lifecycle methods me same code repeat hota tha
 Logic reuse karna hard tha
 Code lamba aur confusing ho jaata tha
 
+
+
+
+React Hooks Type :-
+
+
+UseState :-UseState React Ka Hook Hai Jo Functional Component ME use hota hai Jo Hmare state bane or usko update karne ke liye use hota hai useState me hum component ki changing value store karte hain. Ye normal variable jaisa lagta hai, par actually state hoti hai.
+
+
+Difference ye hai: 
+Normal variable change hoga toh UI update nahi hogi
+State change hogi toh component dubara render hoga
+
+Example:-
+const [name, setName] = useState("Harshu");
+
+Yahan name current value hai aur setName usko change karta hai.
+
+
+
+Example:-
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    setCount(count + 1);
+  }
+
+  return <button onClick={handleClick}>{count}</button>;
+}
+
+
+
+useEffect :-
+useEffect is a hook that lets us perform side effects in function components. It takes a function and a dependency array. The effect runs after render. If the dependency array is empty, it runs only once on mount. If dependencies are provided, it runs again when those values change. We can return a cleanup function to cancel timers, remove event listeners, or avoid memory leaks. Common uses: data fetching, subscriptions, manually changing the DOM.
+
+useEffect(() => {
+  const timer = setInterval(() => console.log('tick'), 1000);
+  return () => clearInterval(timer);
+}, []);
+
+
+useEffect एक React Hook है जो functional components में side effects perform करने देता है – जैसे API calls, timers, event listeners, या DOM updates।
+
+Syntax बताइए:-
+
+
+useEffect(() => {
+  // side effect logic
+  return () => {
+    // cleanup logic (optional)
+  };
+}, [dependencies]);
+
+Ye class component ke lifecycle methods jaisa kaam karta hai.” :-
+
+“`useEffect` class component ke lifecycle methods jaisa kaam karta hai:
+
+* `useEffect(() => {}, [])` = `componentDidMount`
+* `useEffect(() => {}, [count])` = `componentDidUpdate`
+* `return () => {}` = `componentWillUnmount`”
+
+
+
+useEffect functional component me lifecycle ko handle karta hai. Pehle class component me alag lifecycle methods hote the:
+componentDidMount
+componentDidUpdate
+componentWillUnmount
+
+Ab React me useEffect in sab ka kaam karta hai.
+
+
+Step 1 -
+useEffect(() => {
+  console.log("Mount");
+}, []);
+Ye sirf ek baar component load hone par chalta hai. Isliye ye componentDidMount jaisa hai.
+
+
+Step 2 -
+useEffect(() => {
+  console.log("Count Changed");
+}, [count]);
+
+ye tab chalta hai jab count change hota hai. Isliye ye componentDidUpdate jaisa hai.
+
+
+
+
+Step 3- 
+
+useEffect(() => {
+  return () => {
+    console.log("Unmount");
+  };
+}, []);
+
+Ye component hatne / page change hone se pehle chalta hai. Isliye ye componentWillUnmount jaisa hai.
+
+
+
+
+Dependaince in UseEffect ():-
+
+
+[] tab dete hain jab koi kaam sirf ek baar component load hote hi karna ho.
+
+API call
+Data fetch
+Page load par function
+Event listener
+Timer start
+
+useEffect(() => {
+  getData();
+}, []);
+
+
+Haan. Page reload ya component mount hote hi useEffect(..., []) ek baar chalega aur API call ho jayegi. Fir data aa jayega.
+
+Flow In Depandce 
+
+
+Dependaince In useEffect Me kaise chalta hai
+
+ 
+Phle Kya hote jab Hamre Page Reload yaha Update yaha Compont  Hote hai hamra useEffect FirstTime Chalata hai Dependaince ka yeh seen jaiselo mene koi Dependaince nahi de hai jaise mene koi be state update kar de hai to chaiye 2-3 state  mere useeffect haikyo na ho  Component me Vo Har state Par Effect chalta rahega infitnte chalata rahege kyoki jab hamrea Compolete load yaha update hoga hoga chala hi rahega jab kuch be ham karege Ab yeh Jaise [] empty array dete tab jab yeh first  chalta hai jaise man lo me koi api call kar raha or jaise page repload karta hu mere api se data aajanta m chata hu bas vo ek baar hi chalege jab mere page mount ho bas usse time data show hote rahe hai mene jaise koi state pass kar de arraya ke Dependaince ke anadar to kya jitne baar mere state update hoge vo ussefect use time chalege vo bas sift uske liye baana hai or uske sath khyam hoga sab se phle hamra jo useeefct hote hai first render hone ham se phle mount ho jaata hai or jab kuch update hote hai to useefet uske side effect ko control lar leta hai or jab mount band ho jaata hai compont mount hona band ho jaata hai ham useefefcet ke andar apne 2 dunctiuon jo compnyt ke sideeefet ko control karta dusra hamre us side eefect ko clear karta chala yeb vi clearfunction hota ha9injisse hamre perfoemacine or aache ho jaate hai web par 
+
+
+
+
+
+useRef:- 
+useRef React ka hook hai jo kisi value ya DOM element ko store karta hai bina component ko re-render kiye.
+
+
+Step 1 -
+const inputRef = useRef();
+
+Isko input se jodte hain:
+
+
+Step 2 -
+<input ref={inputRef} />
+
+
+Phir value le sakte hain:
+
+
+Step3-
+inputRef.current.value
+
+
+
+
+useRef 2 kaam ke liye use hota hai:
+
+1.DOM ko access karna
+inputRef.current.focus();
+
+2.Value store karna bina render ke
+
+const countRef = useRef(0);
+
+countRef.current++;
+
+isliye useRef use karte hain:
+
+Input focus
+File upload
+Scroll
+Previous value
+Timer id
+Uncontrolled component
+
+
+
+
+
+
+
+
+
+
+
+
+
+Most Important:-
+Haan. useState me har key press par state update hoti hai aur component render hota hai.
+
+useRef me value change hoti rehti hai, par component render nahi hota jab tak tum khud state use karke dikhana na chaho.
+
+
+
+
+
+
+
+
+
+
+
+React.memo:- 
+
+
+React.memo एक higher-order component (HOC) है जो component की unnecessary re-rendering को रोकता है।
+जब parent component re-render होता है, तो उसके सभी child components भी re-render होते हैं – भले ही उनके props change न हुए हों।
+React.memo यह check करता है कि props बदले हैं या नहीं – अगर नहीं बदले, तो पुराना render cached (memoized) result use करता है और re-render नहीं करता
+
+
+
+
+React.memo ek higher-order component hai jo child component ko unnecessary re-render hone se bachata hai. Agar component ki props same hain, toh React child ko dobara render nahi karta. Ye performance improve karne ke liye use hota hai.
+
+
+Example :-
+import React, { useState } from "react";
+
+const Child = React.memo(function Child({ name }) {
+  console.log("Child Render");
+
+  return <h1>{name}</h1>;
+});
+
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>
+        Parent Count: {count}
+      </button>
+
+      <Child name="Harshu" />
+    </>
+  );
+}
+
+export default Parent;
+
+
+
+
+Example 2 -
+function Parent() {
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState('Rahul');
+
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Count: {count}</button>
+      <Child name={name} />
+    </div>
+  );
+}
+
+function Child({ name }) {
+  console.log('Child rendered');
+  return <div>Name: {name}</div>;
+}
+
+यहाँ:
+जब count बदलेगी, Parent re-render होगा → Child भी re-render होगा, भले ही name same हो।
+Console में हर बार "Child rendered" print होगा।
+
+
+
+
+React.memo और PureComponent में क्या अंतर है?
+
+Dono same kaam karte hain — props same ho toh re-render nahi karte. Bas:
+
+React.memo → functional component
+const Child = React.memo(function Child() {})
+PureComponent → class component
+class Child extends React.PureComponent {}
+
+
+
+
+
+higher-order component:-
+
+
+
+Higher-Order Component (HOC) ek function hota hai jo kisi component ko leta hai aur naya component return karta hai.
+
+function withColor(Component) {
+  return function () {
+    return (
+      <div style={{ color: "red" }}>
+        <Component />
+      </div>
+    );
+  };
+}
+
+
+React.memo kaise higher-order component  hua fir
+React.memo hook nahi kyoki yeh use se start nhi hoga hai Yeh ek hoc hai 
+React.memo higher-order component isliye hai kyunki ye ek component ko leta hai aur naya component return karta hai.
+
+const NewChild = React.memo(Child);
+
+Yahan:
+
+Child andar gaya
+React.memo ne ek naya optimized component return kiya
+
+Isliye React.memo bhi HOC hai.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+React Memoization  :-
+React.memo(Component Memozination)
+
+usememo(Memioze Expensive Value )
+
+
+UseCallBack (Memoize Function  Yeh sirf function par kaam karta hai ek na ki purae functional component ppar)
