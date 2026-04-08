@@ -456,7 +456,7 @@ React Hooks Type :-
 UseState :-UseState React Ka Hook Hai Jo Functional Component ME use hota hai Jo Hmare state bane or usko update karne ke liye use hota hai useState me hum component ki changing value store karte hain. Ye normal variable jaisa lagta hai, par actually state hoti hai.
 
 
-Difference ye hai: 
+Difference ye hai:
 Normal variable change hoga toh UI update nahi hogi
 State change hogi toh component dubara render hoga
 
@@ -506,8 +506,8 @@ Ye class component ke lifecycle methods jaisa kaam karta hai.” :-
 
 “`useEffect` class component ke lifecycle methods jaisa kaam karta hai:
 
-* `useEffect(() => {}, [])` = `componentDidMount`
-* `useEffect(() => {}, [count])` = `componentDidUpdate`
+* `useEffect(() => {}, \[])` = `componentDidMount`
+* `useEffect(() => {}, \[count])` = `componentDidUpdate`
 * `return () => {}` = `componentWillUnmount`”
 
 
@@ -537,7 +537,7 @@ ye tab chalta hai jab count change hota hai. Isliye ye componentDidUpdate jaisa 
 
 
 
-Step 3- 
+Step 3-
 
 useEffect(() => {
   return () => {
@@ -568,19 +568,19 @@ useEffect(() => {
 
 Haan. Page reload ya component mount hote hi useEffect(..., []) ek baar chalega aur API call ho jayegi. Fir data aa jayega.
 
-Flow In Depandce 
+Flow In Depandce
 
 
 Dependaince In useEffect Me kaise chalta hai
 
  
-Phle Kya hote jab Hamre Page Reload yaha Update yaha Compont  Hote hai hamra useEffect FirstTime Chalata hai Dependaince ka yeh seen jaiselo mene koi Dependaince nahi de hai jaise mene koi be state update kar de hai to chaiye 2-3 state  mere useeffect haikyo na ho  Component me Vo Har state Par Effect chalta rahega infitnte chalata rahege kyoki jab hamrea Compolete load yaha update hoga hoga chala hi rahega jab kuch be ham karege Ab yeh Jaise [] empty array dete tab jab yeh first  chalta hai jaise man lo me koi api call kar raha or jaise page repload karta hu mere api se data aajanta m chata hu bas vo ek baar hi chalege jab mere page mount ho bas usse time data show hote rahe hai mene jaise koi state pass kar de arraya ke Dependaince ke anadar to kya jitne baar mere state update hoge vo ussefect use time chalege vo bas sift uske liye baana hai or uske sath khyam hoga sab se phle hamra jo useeefct hote hai first render hone ham se phle mount ho jaata hai or jab kuch update hote hai to useefet uske side effect ko control lar leta hai or jab mount band ho jaata hai compont mount hona band ho jaata hai ham useefefcet ke andar apne 2 dunctiuon jo compnyt ke sideeefet ko control karta dusra hamre us side eefect ko clear karta chala yeb vi clearfunction hota ha9injisse hamre perfoemacine or aache ho jaate hai web par 
+Phle Kya hote jab Hamre Page Reload yaha Update yaha Compont  Hote hai hamra useEffect FirstTime Chalata hai Dependaince ka yeh seen jaiselo mene koi Dependaince nahi de hai jaise mene koi be state update kar de hai to chaiye 2-3 state  mere useeffect haikyo na ho  Component me Vo Har state Par Effect chalta rahega infitnte chalata rahege kyoki jab hamrea Compolete load yaha update hoga hoga chala hi rahega jab kuch be ham karege Ab yeh Jaise [] empty array dete tab jab yeh first  chalta hai jaise man lo me koi api call kar raha or jaise page repload karta hu mere api se data aajanta m chata hu bas vo ek baar hi chalege jab mere page mount ho bas usse time data show hote rahe hai mene jaise koi state pass kar de arraya ke Dependaince ke anadar to kya jitne baar mere state update hoge vo ussefect use time chalege vo bas sift uske liye baana hai or uske sath khyam hoga sab se phle hamra jo useeefct hote hai first render hone ham se phle mount ho jaata hai or jab kuch update hote hai to useefet uske side effect ko control lar leta hai or jab mount band ho jaata hai compont mount hona band ho jaata hai ham useefefcet ke andar apne 2 dunctiuon jo compnyt ke sideeefet ko control karta dusra hamre us side eefect ko clear karta chala yeb vi clearfunction hota ha9injisse hamre perfoemacine or aache ho jaate hai web par
 
 
 
 
 
-useRef:- 
+useRef:-
 useRef React ka hook hai jo kisi value ya DOM element ko store karta hai bina component ko re-render kiye.
 
 
@@ -650,7 +650,7 @@ useRef me value change hoti rehti hai, par component render nahi hota jab tak tu
 
 
 
-React.memo:- 
+React.memo:-
 
 
 React.memo एक higher-order component (HOC) है जो component की unnecessary re-rendering को रोकता है।
@@ -747,7 +747,7 @@ function withColor(Component) {
 
 
 React.memo kaise higher-order component  hua fir
-React.memo hook nahi kyoki yeh use se start nhi hoga hai Yeh ek hoc hai 
+React.memo hook nahi kyoki yeh use se start nhi hoga hai Yeh ek hoc hai
 React.memo higher-order component isliye hai kyunki ye ek component ko leta hai aur naya component return karta hai.
 
 const NewChild = React.memo(Child);
@@ -778,4 +778,95 @@ React.memo(Component Memozination)
 usememo(Memioze Expensive Value )
 
 
-UseCallBack (Memoize Function  Yeh sirf function par kaam karta hai ek na ki purae functional component ppar)
+UseCallBack (Memoize Function  Yeh sirf function par kaam karta hai ek na ki purae functional component ppar)    
+
+
+
+
+
+useMemo Hook :- 
+usememo(Memioze Expensive Value )
+
+
+UseMemo Kisi Ki  Value ya Calculation Ko Yaad Rakhne Ke Liye Hota Hai Jo Har Re Render Ko Dobra Calculate na Ho 
+
+const total = useMemo(() => {
+  return price * 2;
+}, [price]); 
+
+Dekho Yeh  Jo Example me Value Hai Vo Tabhi Chalege Jab Price Chagne Honge barna purani Value Use Hogi isse Hamre Performace betterHote hai 
+useMemo Value Return Karta hai Jo Variable Me Store Ho jaate hai Yaha total  me Value milegei bilkul. 
+useMemo calculation ko cache me rakh leta hai. Fir jab tak dependency change nahi hoti, React wahi purani saved value use karta hai, dobara calculation nahi karta
+
+Simple Chj Or UsEffect Ka Jo Sntax hai baise UseMemo Ka be hai par Dono ek Alag hai  
+useMemo me return value dene ke liye hota hai
+Cleanup function sirf useEffect me hota hai:
+
+
+Example :-
+import React, { useState, useMemo } from "react";
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [text, setText] = useState("");
+
+  const double = useMemo(() => {
+    console.log("Calculation Running");
+    return count * 2;
+  }, [count]);
+
+  return (
+    <>
+      <h1>Count: {count}</h1>
+      <h1>Double: {double}</h1>
+
+      <button onClick={() => setCount(count + 1)}>
+        Increase Count
+      </button>
+
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+    </>
+  );
+}
+
+export default App;
+
+
+
+useCallback:-
+useCallback function ko yaad rakhta hai taaki har render par naya function na bane Ye tab use hota hai jab function child component me props ke through bhej rahe ho aur unnecessary render rokna ho.
+
+Exaple:-
+import React, { useState, useCallback } from "react";
+
+const Child = React.memo(function Child({ onClick }) {
+  console.log("Child Render");
+
+  return <button onClick={onClick}>Click</button>;
+});
+
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = useCallback(() => {
+    console.log("Hello");
+  }, []);
+
+  return (
+    <>
+      <h1>{count}</h1>
+
+      <button onClick={() => setCount(count + 1)}>
+        Increase Count
+      </button>
+
+      <Child onClick={handleClick} />
+    </>
+  );
+}
+
+export default Parent;
