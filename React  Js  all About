@@ -870,3 +870,67 @@ function Parent() {
 }
 
 export default Parent;
+
+
+
+`useContext`:-
+
+
+`useContext` tab use hota hai jab ek value bahut components ko chahiye aur baar-baar props pass nahi karna chahte.
+
+```js id="w8h1c7"
+const UserContext = createContext();
+```
+
+```js id="s4m9k0"
+<UserContext.Provider value="Harshu">
+  <Child />
+</UserContext.Provider>
+```
+
+```js id="r6q2x3"
+function Child() {
+  const user = useContext(UserContext);
+
+  return <h1>{user}</h1>;
+}
+```
+
+Yahan parent se child tak props bhejne ki zarurat nahi padi. `useContext` ne direct value de di.
+
+
+
+
+
+
+
+Example:-
+
+import React, { createContext, useContext } from "react";
+
+const UserContext = createContext();
+
+function App() {
+  return (
+    <UserContext.Provider value="Harshu">
+      <Parent />
+    </UserContext.Provider>
+  );
+}
+
+function Parent() {
+  return <Child />;
+}
+
+function Child() {
+  const user = useContext(UserContext);
+
+  return <h1>Hello {user}</h1>;
+}
+
+export default App;
+
+useContext tab use karte hain jab same value bahut saare child components ko chahiye.
+
+Parent me Provider ke through value dete hain, fir jitne bhi child hain wo useContext se value le sakte hain. Props baar-baar pass nahi karni padti.
+
