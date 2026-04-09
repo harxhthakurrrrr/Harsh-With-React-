@@ -506,8 +506,8 @@ Ye class component ke lifecycle methods jaisa kaam karta hai.” :-
 
 “`useEffect` class component ke lifecycle methods jaisa kaam karta hai:
 
-* `useEffect(() => {}, \[])` = `componentDidMount`
-* `useEffect(() => {}, \[count])` = `componentDidUpdate`
+* `useEffect(() => {}, \\\[])` = `componentDidMount`
+* `useEffect(() => {}, \\\[count])` = `componentDidUpdate`
 * `return () => {}` = `componentWillUnmount`”
 
 
@@ -778,27 +778,27 @@ React.memo(Component Memozination)
 usememo(Memioze Expensive Value )
 
 
-UseCallBack (Memoize Function  Yeh sirf function par kaam karta hai ek na ki purae functional component ppar)    
+UseCallBack (Memoize Function  Yeh sirf function par kaam karta hai ek na ki purae functional component ppar)
 
 
 
 
 
-useMemo Hook :- 
+useMemo Hook :-
 usememo(Memioze Expensive Value )
 
 
-UseMemo Kisi Ki  Value ya Calculation Ko Yaad Rakhne Ke Liye Hota Hai Jo Har Re Render Ko Dobra Calculate na Ho 
+UseMemo Kisi Ki  Value ya Calculation Ko Yaad Rakhne Ke Liye Hota Hai Jo Har Re Render Ko Dobra Calculate na Ho
 
 const total = useMemo(() => {
   return price * 2;
-}, [price]); 
+}, [price]);
 
-Dekho Yeh  Jo Example me Value Hai Vo Tabhi Chalege Jab Price Chagne Honge barna purani Value Use Hogi isse Hamre Performace betterHote hai 
-useMemo Value Return Karta hai Jo Variable Me Store Ho jaate hai Yaha total  me Value milegei bilkul. 
+Dekho Yeh  Jo Example me Value Hai Vo Tabhi Chalege Jab Price Chagne Honge barna purani Value Use Hogi isse Hamre Performace betterHote hai
+useMemo Value Return Karta hai Jo Variable Me Store Ho jaate hai Yaha total  me Value milegei bilkul.
 useMemo calculation ko cache me rakh leta hai. Fir jab tak dependency change nahi hoti, React wahi purani saved value use karta hai, dobara calculation nahi karta
 
-Simple Chj Or UsEffect Ka Jo Sntax hai baise UseMemo Ka be hai par Dono ek Alag hai  
+Simple Chj Or UsEffect Ka Jo Sntax hai baise UseMemo Ka be hai par Dono ek Alag hai
 useMemo me return value dene ke liye hota hai
 Cleanup function sirf useEffect me hota hai:
 
@@ -872,28 +872,159 @@ function Parent() {
 export default Parent;
 
 
+Context API:-
+“Context API props drilling se bachne ke liye use hota hai. Jab hume parent se bahut neeche wale component ko data dena ho, bina har component me props pass kiye, tab Context API use karte hain. useContext hook us shared data ko access karne ke liye use hota hai
 
-`useContext`:-
+Example :-
+/ UserContext.js
+
+Step -1 :-
+// UserContext.js
+import { createContext } from "react";
+
+const UserContext = createContext();
+
+export default UserContext;
+
+Step -2 :-
+// App.js
+import UserContext from "./UserContext";
+import Parent from "./Parent";
+
+function App() {
+  return (
+    <UserContext.Provider value="Harshu">
+      <Parent />
+    </UserContext.Provider>
+  );
+}
+
+export default App;// Parent.js
+
+
+
+// Parent.js
+import Child from "./Child";
+
+function Parent() {
+  return <Child />;
+}
+
+export default Parent;
+
+
+// Child.js
+import GrandChild from "./GrandChild";
+
+function Child() {
+  return <GrandChild />;
+}
+
+export default Child;
+
+
+
+// GrandChild.js
+import { useContext } from "react";
+import UserContext from "./UserContext";
+
+function GrandChild() {
+  const user = useContext(UserContext);
+
+  return <h1>{user}</h1>;
+}
+
+export default GrandChild;
+
+-========================================================================================================================================
+Har ek Createcontext Jo hota hai Vo Vo Ham EK State Ke Liye Alag hote Hai na ? :-
+
+Haa Sab Chj Ke Liye alag createContext() baante Hai Depand karta hai Konse Type ka Data Share Karta Hai Like :- useData < dark/Tight Theme etec aise kuch be Dena Ho  
+
+
+Example:-
+// App.js
+import React, { createContext, useContext, useState } from "react";
+
+const UserContext = createContext();
+const ThemeContext = createContext();
+
+function App() {
+  const [user, setUser] = useState("Harshu");
+  const [theme, setTheme] = useState("Dark");
+
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      <ThemeContext.Provider value={{ theme, setTheme }}>
+        <Parent />
+      </ThemeContext.Provider>
+    </UserContext.Provider>
+  );
+}
+
+function Parent() {
+  return <Child />;
+}
+
+function Child() {
+  return <GrandChild />;
+}
+
+function GrandChild() {
+  const { user, setUser } = useContext(UserContext);
+  const { theme, setTheme } = useContext(ThemeContext);
+
+  return (
+    <>
+      <h1>User: {user}</h1>
+      <h2>Theme: {theme}</h2>
+
+      <button onClick={() => setUser("Rahul")}>
+        Change User
+      </button>
+
+      <button onClick={() => setTheme("Light")}>
+        Change Theme
+      </button>
+    </>
+  );
+}
+
+export default App;
+==========================================================================================================================================
+useContext`:-
 
 
 `useContext` tab use hota hai jab ek value bahut components ko chahiye aur baar-baar props pass nahi karna chahte.
 
 ```js id="w8h1c7"
+
 const UserContext = createContext();
+
 ```
 
 ```js id="s4m9k0"
+
 <UserContext.Provider value="Harshu">
-  <Child />
+
+&#x20; <Child />
+
 </UserContext.Provider>
+
 ```
 
 ```js id="r6q2x3"
-function Child() {
-  const user = useContext(UserContext);
 
-  return <h1>{user}</h1>;
+function Child() {
+
+&#x20; const user = useContext(UserContext);
+
+
+
+&#x20; return <h1>{user}</h1>;
+
 }
+
 ```
 
 Yahan parent se child tak props bhejne ki zarurat nahi padi. `useContext` ne direct value de di.
@@ -934,3 +1065,104 @@ useContext tab use karte hain jab same value bahut saare child components ko cha
 
 Parent me Provider ke through value dete hain, fir jitne bhi child hain wo useContext se value le sakte hain. Props baar-baar pass nahi karni padti.
 
+
+
+==========================================================================================================================================
+useReducer:- useReducer tab use hota hai jab state complex ho ya bahut saare actions ho.jaise add, delete, update, reset.
+
+
+useReducer me 3 cheezein hoti hain:
+
+State
+Reducer function
+Dispatch
+
+
+
+const [state, dispatch] = useReducer(reducer, 0);
+
+
+
+state = current value
+dispatch = action bhejne ka function
+0 = initial value
+Reducer function:
+
+function reducer(state, action) {
+  if (action.type === "increment") {
+    return state + 1;
+  }
+
+  if (action.type === "decrement") {
+    return state - 1;
+  }
+
+  return state;
+}
+
+Yahan:
+
+state = current value
+action = kya karna hai
+
+
+=========================================================================================================================================
+
+Example:-
+import React, { useReducer } from "react";
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "increment":
+      return state + 1;
+
+    case "decrement":
+      return state - 1;
+
+    default:
+      return state;
+  }
+}
+
+function App() {
+  const [count, dispatch] = useReducer(reducer, 0);
+
+  return (
+    <>
+      <h1>{count}</h1>
+
+      <button onClick={() => dispatch({ type: "increment" })}>
+        +1
+      </button>
+
+      <button onClick={() => dispatch({ type: "decrement" })}>
+        -1
+      </button>
+    </>
+  );
+}
+
+export default App;
+========================================================================================================================================
+
+
+
+Lifting State Up:-Lifting State Up → jab 2–3 close components ko same state chahiye Lifting State Up ka matlab state ko child se utha kar common parent me rakhna, taaki multiple components same state use kar sakein.
+
+Parent
+ ├─ Child1
+ └─ Child2
+
+
+Example :-
+function Parent() {
+  const [name, setName] = useState("");
+
+  return (
+    <>
+      <Child1 name={name} setName={setName} />
+      <Child2 name={name} />
+    </>
+  );
+}
+=========================================================================================================================================
