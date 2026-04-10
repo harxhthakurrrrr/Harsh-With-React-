@@ -506,8 +506,8 @@ Ye class component ke lifecycle methods jaisa kaam karta hai.” :-
 
 “`useEffect` class component ke lifecycle methods jaisa kaam karta hai:
 
-* `useEffect(() => {}, \\\[])` = `componentDidMount`
-* `useEffect(() => {}, \\\[count])` = `componentDidUpdate`
+* `useEffect(() => {}, \\\\\\\[])` = `componentDidMount`
+* `useEffect(() => {}, \\\\\\\[count])` = `componentDidUpdate`
 * `return () => {}` = `componentWillUnmount`”
 
 
@@ -939,7 +939,7 @@ export default GrandChild;
 -========================================================================================================================================
 Har ek Createcontext Jo hota hai Vo Vo Ham EK State Ke Liye Alag hote Hai na ? :-
 
-Haa Sab Chj Ke Liye alag createContext() baante Hai Depand karta hai Konse Type ka Data Share Karta Hai Like :- useData < dark/Tight Theme etec aise kuch be Dena Ho  
+Haa Sab Chj Ke Liye alag createContext() baante Hai Depand karta hai Konse Type ka Data Share Karta Hai Like :- useData < dark/Tight Theme etec aise kuch be Dena Ho
 
 
 Example:-
@@ -1007,7 +1007,7 @@ const UserContext = createContext();
 
 <UserContext.Provider value="Harshu">
 
-&#x20; <Child />
+\&#x20; <Child />
 
 </UserContext.Provider>
 
@@ -1017,11 +1017,11 @@ const UserContext = createContext();
 
 function Child() {
 
-&#x20; const user = useContext(UserContext);
+\&#x20; const user = useContext(UserContext);
 
 
 
-&#x20; return <h1>{user}</h1>;
+\&#x20; return <h1>{user}</h1>;
 
 }
 
@@ -1166,3 +1166,60 @@ function Parent() {
   );
 }
 =========================================================================================================================================
+
+
+
+useLayoutEffect:-
+useLayoutEffect almost useEffect jaisa hota hai, lekin yeh browser ke screen paint hone se pehle run hota hai.
+
+useEffect → render ke baad
+useLayoutEffect → render ke turant baad, but screen dikhne se pehle
+Kyu use hota hai?
+
+Jab tumhe DOM ka size, height, width, scroll position wagairah nikalna ho aur flicker na aaye.
+
+
+useLayoutEffect(() => {
+  console.log(divRef.current.offsetHeight);
+}, []);
+
+
+Example:-
+import { useRef, useLayoutEffect } from "react";
+
+function Example() {
+  const boxRef = useRef();
+
+  useLayoutEffect(() => {
+    boxRef.current.style.background = "red";
+  }, []);
+
+  return <div ref={boxRef}>Hello</div>;
+}
+
+
+Difference
+
+useEffect(() => {
+  // screen pe pehle dikh jayega
+  // fir yeh chalega
+});
+});
+
+
+
+useLayoutEffect(() => {
+  // pehle yeh chalega
+  // fir screen dikhegi
+});
+
+
+Kab use karna chahiye?
+DOM measurement
+Scroll set karna
+Element ki height/width lena
+Flicker avoid karna
+
+Kab nahi?
+
+Normal API call ya data fetch ke liye useEffect hi use karo
