@@ -1,6 +1,6 @@
 What Is React Js :-
 React Ek JavaScript Ki Library Hai JO User Interface Baane Hai Liye Use Hote hai Jo Especially Website bane Ke Liye Hota hai
-Pehle normal JavaScript me har baar manually HTML change karna padta tha 
+Pehle normal JavaScript me har baar manually HTML change karna padta tha
 document.getElementById("count").innerText = count;
 
 Jisse kya HOta hai Hamra  na App Baada Ho Jaata hai React me ham Apne Ul Ko Alag Compontes me Tod date ha hai jaise likhe Navbar And SideBar ANd Button ChatBOx
@@ -506,8 +506,8 @@ Ye class component ke lifecycle methods jaisa kaam karta hai.” :-
 
 “`useEffect` class component ke lifecycle methods jaisa kaam karta hai:
 
-* `useEffect(() => {}, \\\\\\\[])` = `componentDidMount`
-* `useEffect(() => {}, \\\\\\\[count])` = `componentDidUpdate`
+* `useEffect(() => {}, \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[])` = `componentDidMount`
+* `useEffect(() => {}, \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[count])` = `componentDidUpdate`
 * `return () => {}` = `componentWillUnmount`”
 
 
@@ -1007,7 +1007,7 @@ const UserContext = createContext();
 
 <UserContext.Provider value="Harshu">
 
-\&#x20; <Child />
+\\\\\\\&#x20; <Child />
 
 </UserContext.Provider>
 
@@ -1017,11 +1017,11 @@ const UserContext = createContext();
 
 function Child() {
 
-\&#x20; const user = useContext(UserContext);
+\\\\\\\&#x20; const user = useContext(UserContext);
 
 
 
-\&#x20; return <h1>{user}</h1>;
+\\\\\\\&#x20; return <h1>{user}</h1>;
 
 }
 
@@ -1170,6 +1170,7 @@ function Parent() {
 
 
 useLayoutEffect:-
+UseLayOuteffect Hook hai Effect jaise hai bas kuch alag isme kya hota hai jaise effect compont ke Render jaise hota hai screen par uske baad chalata hai uselayout effect jo hook hai compnete ke render hone se phle sreen par chal jaata hai
 useLayoutEffect almost useEffect jaisa hota hai, lekin yeh browser ke screen paint hone se pehle run hota hai.
 
 useEffect → render ke baad
@@ -1222,4 +1223,352 @@ Flicker avoid karna
 
 Kab nahi?
 
-Normal API call ya data fetch ke liye useEffect hi use karo
+Normal API call ya data fetch ke liye useEffect hi use karo\
+
+
+
+
+Yeh JO UseEffect Hook hai Vo components ke render Hone aur Screen Par Dikhne Ke baad Chalta hai
+
+Render -> Screen dikhi -> useEffect chala
+
+
+
+UseLayoutEffect Hook Component ke render hone se baad but sreen par dikhane se phle chalta hai
+
+Render -> useLayoutEffect chala -> Fir screen dikhi
+
+Example :-
+
+import React, { useEffect, useLayoutEffect } from "react";
+
+function App() {
+  console.log("1. Component Render");
+
+  useLayoutEffect(() => {
+    console.log("2. useLayoutEffect Chala");
+  }, []);
+
+  useEffect(() => {
+    console.log("3. useEffect Chala");
+  }, []);
+
+  return <h1>Hello Harshu</h1>;
+}
+
+export default App;
+
+===========================================================================================================================================
+
+
+useOptimistic Hook :-
+Yeh React Ka Hook hai yeh Hamre Ul Kop turant update karte hai bine ki server/ Api Response ka wait kiye hu yeh wait nahikarta hai hamre ul jaldui se Uldate karta hai
+
+
+Example: tumne comment add kiya.
+
+button click
+→ API call
+→ wait
+→ response
+→ comment dikhega
+
+useOptimistic Kya karega
+
+button click
+→ comment turant dikha do
+→ API call background me
+→ agar fail ho gaya to hata do
+
+useOptimistic – Interview Notes
+Kya hai?
+
+useOptimistic React ka hook hai jo UI ko turant update kar deta hai,
+bina API response ka wait kiye.
+
+Matlab user ko lagta hai ki kaam turant ho gaya.
+
+
+
+
+Kyu use karte hain?
+
+Jab hume user ko fast response dena ho.
+
+Example:
+
+Like button
+Comment add
+Chat message
+Todo add
+Follow / Unfollow
+
+
+Kaha use nahi karna chahiye?
+Payment
+Bank balance
+OTP verify
+Login
+Important delete
+
+
+
+
+
+Payment me kyu nahi?
+
+Kyuki agar UI turant dikha de ki payment successful ho gayi, aur baad me API fail ho jaye, to user ko galat information milegi.
+
+useOptimistic ek React hook hai jo optimistic UI updates ke liye use hota hai. Isme hum UI ko turant update kar dete hain bina API response ka wait kiye. Iska use like, comment aur follow jaise features me karte hain. Lekin payment ya critical features me use nahi karte kyuki waha exact API response zaruri hota hai.
+
+==========================================================================================================================================
+
+
+useImperativeHandle and Forwef:-
+
+
+
+जिसका इस्तेमाल parent से child component को ref पास करने के लिए होता है। इससे parent किसी child के DOM element या उसकी कोई functionality को access कर सकता है। अब, अगर तुम्हें child में custom methods या behaviors expose करने हैं, तब तुम useImperativeHandle के hook का इस्तेमाल करते हो। दोनों अक्सर साथ-साथ काम करते हैं।
+
+
+Forwef : tab use karte hai jab parent ka Ref hamko child me bhjen ho tab use karte hain
+import React, { useRef } from "react";
+import Child from "./Child";
+
+function Parent() {
+  const inputRef = useRef();
+
+  const handleFocus = () => {
+    inputRef.current.focus();
+  };
+
+  return (
+    <div>
+      <Child ref={inputRef} />
+
+      <button onClick={handleFocus}>
+        Focus Child Input
+      </button>
+    </div>
+  );
+}
+
+export default Parent;
+
+
+
+import React, { forwardRef } from "react";
+
+const Child = forwardRef((props, ref) => {
+  return (
+    <input
+      ref={ref}
+      type="text"
+      placeholder="Enter Name"
+    />
+  );
+});
+
+export default Child;
+
+
+Flow
+Parent ka inputRef
+→ Child ko ref ke through gaya
+→ Child ne us ref ko input par laga diya
+→ Parent button click karke child ke input ko focus kar raha hai
+
+Most
+forwardRef mostly DOM elements ke liye hi use hota hai
+
+
+
+
+useImperativeHandle:- agra child ke andar ko function Ab parent chata ki vo use child ke functio ko acces karna chata hai to lekin directe parent child ke function ko call nahi karta hai iske parent apna jo be ref hai vo child ko deta hai forwarref ke or child uske useimperativehandle Se bolta hai  ki yeh jo mere function hai parent use kar sakhta hai
+Example:-
+const Child = forwardRef((props, ref) => {
+  const [show, setShow] = useState(false);
+
+  function openModal() {
+    setShow(true);
+  }
+
+  useImperativeHandle(ref, () => ({
+    openModal
+  }));
+
+  return show ? <div>Modal Open</div> : null;
+});
+
+
+Parent:
+const modalRef = useRef();
+
+<Child ref={modalRef} />
+
+<button onClick={() => modalRef.current.openModal()}>
+  Open Modal
+</button>
+
+Jab button click hua:
+
+modalRef.current.openModal()
+
+To child ke andar ka openModal() chal gaya.
+
+
+
+forwardRef = parent ka ref child me bhejna
+
+useImperativeHandle = child ke function ko parent ko dena
+
+
+
+
+
+
+
+==========================================================================================================================================
+
+
+useId:-useId ek unique id generate karta hai.
+
+Iska use mostly form me hota hai taaki label aur input ko connect kar sake.
+
+import { useId } from "react";
+
+function InputBox() {
+  const id = useId();
+
+  return (
+    <>
+      <label htmlFor={id}>Name</label>
+      <input id={id} />
+    </>
+  );
+}
+
+
+Agar component 10 baar render hua to har baar alag id milegi
+
+
+Yeh Jo Muje Id Milte hai useId Hook Se Vo Har baar Unique Id Genter karte hai or yeh kuch aise dkhte hai
+
+:r0:
+:r1:
+:r2:
+
+
+Haan, :r0:, :r1: yeh sab string hoti hain.
+
+const id = useId();
+
+console.log(id);
+console.log(typeof id);
+
+output
+:r0:
+string
+
+==========================================================================================================================================
+
+
+Custom Hooks:-Custom Hook React me aisa function hota hai jo tum khud banate ho taaki same logic baar-baar repeat na karna pade  Agar 2–3 components me same useState, useEffect, API logic use ho raha hai, to usko ek custom hook me daal dete hain.
+
+
+
+
+
+"Custom hook ka naam hamesha use se start hota hai"
+
+
+Exampole:-
+import { useState } from "react";
+
+function useCounter() {
+  const [count, setCount] = useState(0);
+
+  const increment = () => {
+    setCount((prev) => prev + 1);
+  };
+
+  const decrement = () => {
+    setCount((prev) => prev - 1);
+  };
+
+  return {
+    count,
+    increment,
+    decrement,
+  };
+}
+
+export default useCounter;
+
+
+
+import React from "react";
+import useCounter from "./useCounter";
+
+function App() {
+  const { count, increment, decrement } = useCounter();
+
+  return (
+    <div>
+      <h1>{count}</h1>
+
+      <button onClick={increment}>+</button>
+      <button onClick={decrement}>-</button>
+    </div>
+  );
+}
+
+export default App;
+
+
+
+
+
+
+
+========================================================================================================================================
+
+useTransition:-React ka hook hai jo heavy state updates ko low priority bana deta hai, taaki UI smooth rahe aur app hang na ho.Iska use tab karte hain jab large data filter, search ya rendering ho rahi ho. Jaise bade table me search karte waqt input slow ho sakta hai. useTransition me hum important update (typing) ko pehle aur heavy update ko baad me kar dete hain.
+
+
+
+
+useTransition ka use UI ko responsive aur smooth banane ke liye karte hain jab heavy rendering ya filtering ho rahi ho.
+
+
+
+
+import React, { useEffect, useState, useTransition } from "react";
+
+function App() {
+  const [users, setUsers] = useState([]);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json())
+      .then((data) => {
+        startTransition(() => {
+          setUsers(data);
+        });
+      });
+  }, []);
+
+  return (
+    <div>
+      {isPending && <p>Loading...</p>}
+
+      {users.map((user) => (
+        <h3 key={user.id}>{user.name}</h3>
+      ))}
+    </div>
+  );
+}
+
+export default App;
+=========================================================================================================================================
