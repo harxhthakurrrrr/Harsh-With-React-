@@ -506,8 +506,8 @@ Ye class component ke lifecycle methods jaisa kaam karta hai.” :-
 
 “`useEffect` class component ke lifecycle methods jaisa kaam karta hai:
 
-* `useEffect(() => {}, \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[])` = `componentDidMount`
-* `useEffect(() => {}, \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[count])` = `componentDidUpdate`
+* `useEffect(() => {}, \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[])` = `componentDidMount`
+* `useEffect(() => {}, \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[count])` = `componentDidUpdate`
 * `return () => {}` = `componentWillUnmount`”
 
 
@@ -1007,7 +1007,7 @@ const UserContext = createContext();
 
 <UserContext.Provider value="Harshu">
 
-\\\\\\\&#x20; <Child />
+\\\\\\\\\\\\\\\&#x20; <Child />
 
 </UserContext.Provider>
 
@@ -1017,11 +1017,11 @@ const UserContext = createContext();
 
 function Child() {
 
-\\\\\\\&#x20; const user = useContext(UserContext);
+\\\\\\\\\\\\\\\&#x20; const user = useContext(UserContext);
 
 
 
-\\\\\\\&#x20; return <h1>{user}</h1>;
+\\\\\\\\\\\\\\\&#x20; return <h1>{user}</h1>;
 
 }
 
@@ -1572,3 +1572,55 @@ function App() {
 
 export default App;
 =========================================================================================================================================
+
+
+
+Component Lifecycle:-
+
+React component lifecycle ke 3 phases hote hain: Mounting → Updating → Unmounting
+
+Flow 
+
+Mounting = component pehli baar screen par aaya
+Updating = state ya props change hui aur component dubara render hua
+Unmounting = component screen se hat gaya
+
+
+
+Example:-import React, { useEffect, useState } from "react";
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  // Mount
+  useEffect(() => {
+    console.log("Component Mount Hua");
+
+    return () => {
+      console.log("Component Unmount Hua");
+    };
+  }, []);
+
+  // Update
+  useEffect(() => {
+    console.log("Count Update Hua");
+  }, [count]);
+
+  return (
+    <div>
+      <h1>{count}</h1>
+
+      <button onClick={() => setCount(count + 1)}>
+        Increase
+      </button>
+    </div>
+  );
+}
+Component Mount Hua
+Count Update Hua
+
+// button click
+Count Update Hua
+
+// component remove
+Component Unmount Hua
