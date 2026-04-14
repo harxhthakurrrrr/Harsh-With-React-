@@ -506,8 +506,8 @@ Ye class component ke lifecycle methods jaisa kaam karta hai.” :-
 
 “`useEffect` class component ke lifecycle methods jaisa kaam karta hai:
 
-* `useEffect(() => {}, \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[])` = `componentDidMount`
-* `useEffect(() => {}, \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[count])` = `componentDidUpdate`
+* `useEffect(() => {}, \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[])` = `componentDidMount`
+* `useEffect(() => {}, \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[count])` = `componentDidUpdate`
 * `return () => {}` = `componentWillUnmount`”
 
 
@@ -1007,7 +1007,7 @@ const UserContext = createContext();
 
 <UserContext.Provider value="Harshu">
 
-\\\\\\\\\\\\\\\&#x20; <Child />
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\&#x20; <Child />
 
 </UserContext.Provider>
 
@@ -1017,11 +1017,11 @@ const UserContext = createContext();
 
 function Child() {
 
-\\\\\\\\\\\\\\\&#x20; const user = useContext(UserContext);
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\&#x20; const user = useContext(UserContext);
 
 
 
-\\\\\\\\\\\\\\\&#x20; return <h1>{user}</h1>;
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\&#x20; return <h1>{user}</h1>;
 
 }
 
@@ -1579,7 +1579,7 @@ Component Lifecycle:-
 
 React component lifecycle ke 3 phases hote hain: Mounting → Updating → Unmounting
 
-Flow 
+Flow
 
 Mounting = component pehli baar screen par aaya
 Updating = state ya props change hui aur component dubara render hua
@@ -1624,3 +1624,495 @@ Count Update Hua
 
 // component remove
 Component Unmount Hua
+
+
+=========================================================================================================================================
+Lifting State Up:-
+Lifting State Up ka matlab hai common state ko parent component me rakhna. Jab 2 ya zyada child components ko same data chahiye hota hai, to hum state parent me banate hain aur props ke through child components ko pass kar dete hain. Isse alag-alag jagah same state banani nahi padti aur sab components ek hi data use karte hain.
+
+Example:-
+import React, { useState } from "react";
+import Child1 from "./Child1";
+import Child2 from "./Child2";
+import Child3 from "./Child3";
+
+function Parent() {
+  const [name, setName] = useState("Harshu");
+
+  return (
+    <div>
+      <Child1 name={name} setName={setName} />
+      <Child2 name={name} />
+      <Child3 name={name} />
+    </div>
+  );
+}
+
+export default Parent;
+
+Child 1 .jsx
+
+import React from "react";
+
+function Child1({ name, setName }) {
+  return (
+    <div>
+      <input
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+    </div>
+  );
+}
+
+export default Child1;
+
+
+child2.jsx
+import React from "react";
+
+function Child2({ name }) {
+  return <h1>Child2: {name}</h1>;
+}
+
+export default Child2;
+
+
+child 3.jsx
+
+
+import React from "react";
+
+function Child3({ name }) {
+  return <p>Child3: {name}</p>;
+}
+
+export default Child3;
+==========================================================================================================================================
+
+React Rendering & Virtual DOM Notes
+
+Virtual DOM :-
+Virtual DOM Real DOM ki lightweight copy hoti hai.
+React is copy ko memory me rakhta hai.
+Jab state ya props change hoti hai, React naya Virtual DOM banata hai.
+<div>
+  <h1>Hello</h1>
+  <p>123</p>
+</div>
+
+
+Agar sirf p ki value change hui:
+
+
+<div>
+  <h1>Hello</h1>
+  <p>456</p>
+</div>
+
+To React dekhega:
+
+<h1>Hello</h1> // same
+<p>123</p> → <p>456</p> // changed4
+
+
+Isliye sirf p update hoga.
+
+=========================================================================================================================================
+2. Diffing Algorithm
+Purane Virtual DOM aur naye Virtual DOM ko compare karna Diffing kehlata hai.
+Old Virtual DOM
+vs
+New Virtual DOM
+
+React dekhta hai kya change hua hai.
+
+
+3. Reconciliation
+
+Compare karne ke baad sirf changed part ko Real DOM me update karna Reconciliation kehlata hai.
+<p>123</p> → <p>456</p>
+
+Sirf p update hoga, h1 nahi.
+
+4. Why React Fast Hai?
+
+React fast hai kyuki:
+
+React poora DOM update nahi karta
+Sirf changed part update karta hai
+Virtual DOM use karta hai
+
+React:
+Only changed part update
+
+
+
+Normal DOM:
+
+
+Change hua
+→ browser poora tree check karega
+→ reflow
+→ repaint
+
+
+
+
+. Re-rendering
+
+Component dubara render hota hai jab:
+
+State change ho
+Props change ho
+Parent re-render ho
+setCount(count + 1)
+
+Isse component firse chalega.
+
+
+
+. Parent Child Render Flow
+
+Agar Parent re-render hota hai, to child bhi normally re-render hota hai.
+
+Parent Render
+→ Child Render
+
+Chahe child ki props change hui ho ya nahi.
+
+Isko rokne ke liye:
+
+React.memo()
+
+Use kar sakte hain.
+
+Lekin iska matlab yeh nahi ki poora Real DOM update hoga. React sirf changed part ko update karega
+
+
+
+
+
+
+
+7. React Fiber
+React Fiber React ka naya rendering engine hai.
+React 16 me aaya.
+Fiber bade rendering kaam ko chhote-chhote parts me tod deta hai.
+
+Old React:
+
+setState()
+→ saara render ek saath
+→ UI slow ya freeze
+
+
+React Fiber:
+
+setState()
+→ render ko small parts me divide
+→ important kaam pehle
+→ baaki baad me
+
+Example:
+
+Typing = High Priority
+Big List Render = Low Priority
+
+========================================================================================================================================
+
+Concurrent Rendering:-
+Concurrent Rendering React Fiber ka feature hai. Isme React ek bada kaam ek saath karne ke bajaye thoda-thoda karke karta hai.
+
+
+phle 
+Heavy render
+→ poora ek saath
+→ UI ruk gayi
+
+Concurrent Rendering:
+
+Thoda render
+→ agar user ne click/type kiya to pehle wo karo
+→ fir baaki render karo
+
+
+Concurrent Rendering:
+
+Thoda render
+→ agar user ne click/type kiya to pehle wo karo
+→ fir baaki render karo
+
+Example:
+
+Tum search box me type kar rahe ho aur neeche 10000 rows render ho rahi hain.
+
+Without Concurrent Rendering:
+
+Type kiya
+→ 10000 rows render
+→ input slow
+
+With Concurrent Rendering:
+
+Type kiya
+→ input turant
+→ rows baad me
+
+Isliye app smooth lagti hai.
+=======================================================================================================================================
+````txt
+# Code Splitting, Lazy Loading, Suspense
+
+--------------------------------------------------
+1) Code Splitting
+--------------------------------------------------
+
+Code Splitting ka use tab karte hain jab application badi ho jaati hai.
+
+Agar app me bahut saare pages hain:
+
+- Home
+- About
+- Dashboard
+- Reports
+- Settings
+
+To normally saara code ek saath load hota hai.
+
+Result:
+- First load slow ho jaata hai
+- Website open hone me zyada time lagta hai
+
+Code Splitting kya karta hai?
+
+→ Saare code ko chhote-chhote parts (chunks) me divide kar deta hai.
+
+Example:
+
+Home page open hua
+→ Sirf Home page ka code load hoga
+
+About page ka code
+→ Abhi load nahi hoga
+
+Reports page ka code
+→ Abhi load nahi hoga
+
+Isse application fast open hoti hai.
+
+--------------------------------------------------
+2) Lazy Loading
+--------------------------------------------------
+
+Lazy Loading, Code Splitting ka hi use karti hai.
+
+Isme component tab load hota hai jab uski zarurat padti hai.
+
+Syntax:
+
+```jsx
+const About = React.lazy(() => import("./About"));
+````
+
+Meaning:
+
+User jab About page par jayega
+→ Tab About component load hoga
+
+Agar user sirf Home page par hai
+→ About component load nahi hoga
+
+Example Flow:
+
+Home page open
+→ Home component load
+
+User About page par gaya
+→ About component tab load hua
+
+User Reports page par gaya
+→ Reports component tab load hua
+
+Example:
+
+```jsx
+const Reports = React.lazy(() => import("./Reports"));
+```
+
+---
+
+3. Suspense
+
+---
+
+Jab lazy component load hota hai tab thoda time lag sakta hai.
+
+Us time tak user ko blank screen na dikhe,
+isliye Suspense use karte hain.
+
+Suspense ek temporary loading UI dikhata hai.
+
+Syntax:
+
+```jsx
+<Suspense fallback={<h1>Loading...</h1>}>
+  <About />
+</Suspense>
+```
+
+Yahan:
+
+* About component load ho raha hai
+* Tab tak "Loading..." show hoga
+* Jab About load ho jayega
+* Tab About component show ho jayega
+
+Flow:
+
+About load ho raha hai
+→ Loading... show
+
+About load ho gaya
+→ Actual component show
+
+---
+
+4. Teeno ka Relation
+
+---
+
+Code Splitting
+→ Code ko alag-alag parts me todta hai
+
+Lazy Loading
+→ Un parts ko zarurat par load karta hai
+
+Suspense
+→ Load hone tak loading dikhata hai
+
+Short Form:
+
+* Code Splitting = Divide code
+* Lazy Loading = Load only when needed
+* Suspense = Show loading until loaded
+
+---
+
+5. Complete Example
+
+---
+
+```jsx
+import React, { lazy, Suspense } from "react";
+
+const About = lazy(() => import("./About"));
+
+function App() {
+  return (
+    <Suspense fallback={<h1>Loading...</h1>}>
+      <About />
+    </Suspense>
+  );
+}
+
+export default App;
+```
+
+---
+
+6. Project Me Kaha Use Karte Hain?
+
+---
+
+Tumhare CRM / Dashboard project me:
+
+* Login
+* Dashboard
+* Reports
+* Settings
+* Analytics
+
+Dashboard aur Reports heavy pages hote hain.
+
+To unko lazy load karte hain:
+
+```jsx
+const Dashboard = lazy(() => import("./Dashboard"));
+const Reports = lazy(() => import("./Reports"));
+```
+
+Fir:
+
+```jsx
+<Suspense fallback={<h1>Loading...</h1>}>
+  <Dashboard />
+</Suspense>
+```
+
+Ya route ke andar:
+
+```jsx
+<Route
+  path="/reports"
+  element={
+    <Suspense fallback={<h1>Loading...</h1>}>
+      <Reports />
+    </Suspense>
+  }
+/>
+```
+
+Isse:
+
+* App jaldi open hogi
+* Sirf required page load hoga
+* Performance better hogi
+
+---
+
+7. Suspense Ke Andar Kya Daalte Hain?
+
+---
+
+Suspense ke andar hamesha wahi component aata hai
+jo React.lazy() se load hua ho.
+
+Example:
+
+```jsx
+const About = React.lazy(() => import("./About"));
+```
+
+Fir:
+
+```jsx
+<Suspense fallback={<h1>Loading...</h1>}>
+  <About />
+</Suspense>
+```
+
+Yahan About lazy component hai,
+isliye usko Suspense ke andar rakha gaya hai.
+
+Agar multiple lazy components hain:
+
+```jsx
+<Suspense fallback={<h1>Loading...</h1>}>
+  <Dashboard />
+  <Reports />
+</Suspense>
+```
+
+---
+
+8. Important Interview Line
+
+---
+
+React.lazy + Suspense ka use large applications me
+initial bundle size kam karne aur performance improve
+karne ke liye kiya jaata hai.
+
+```
+```
