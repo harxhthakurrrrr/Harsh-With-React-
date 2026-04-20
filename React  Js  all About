@@ -2701,6 +2701,34 @@ const { state } = useLocation();
 useLocation() tumhe ek object deta hai jisme current page ki information hoti hai
 
 
+Most Thing In USelocation :-
+UseLocation Ke Anadar Jo chj milte hai 
+Hash:
+Key :
+pathname :
+search 
+state:
+yeh  milte hai 
+ 
+key isme hote hi jab ek page se dusre page me key milte yeh har unique Milte hai  pathname milta hai isme milta hai jaise /user/login aise milte hai jitne route ke anadr pathname milta rahega search ?coiuntr=in aise hote hai hash milta hai jab url me # milta hai state hote hai jab state ham kuch data bhjene kuch data bhjene ho state to hamko state state ham kuchamount of data bhj sakhte hai 
+
+yeh jo search me ? ke baad jo aata hai usko ham query param bolte hai iska use extra data bhjen ke liye hote hai bine route change kiye /products?category=mobile&price=10000
+
+import { useLocation } from "react-router-dom";
+
+const location = useLocation();
+
+const params = new URLSearchParams(location.search);
+
+console.log(params.get("category")); // mobile
+console.log(params.get("price")); // 10000
+
+
+
+Yeh Chj Or isme:-
+To useLocation me kuch cheezein URL se aati hain (search, pathname,hash ) aur kuch state se jo URL me nahi dikhta.
+
+
 
 
 
@@ -2722,12 +2750,90 @@ navigate("/user", {
   }
 })
 
+Example:-
+import { useNavigate } from "react-router-dom";
+
+function Home() {
+  const navigate = useNavigate();
+
+  const goToAbout = () => {
+    navigate("/about");
+  };
+
+  return (
+    <div>
+      <h1>Home Page</h1>
+
+      <button onClick={goToAbout}>
+        Go To About
+      </button>
+    </div>
+  );
+}
+
+export default Home;
+
+import { Routes, Route } from "react-router-dom";
+import Home from "./Home";
+import About from "./About";
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+    </Routes>
+  );
+}
+
+
+
+function About() {
+  return <h1>About Page</h1>;
+}
+
+export default About;
 
 
 
 
 
+Protect Route:- yeh use hote hai kisse be route ko protect karne ke liye jaise hamre application me bhoot saare compon hote to use Url ke thordgh kha be jaa sakhtajaise  /dashboard/ Admin  agar M chata phle uske login kare tabhi vo page open kar yeh yeh jaada tab use jaise muje phle authematication ka karna  phlelogin tabhi vo dusre chj ko access kar agar vo use page par jaane ki koshish kare to vo wapis aajaye us page par Yeh Hote hai,  wahi protected route hota hai. Tum pehle authentication check karte ho — agar user login nahi hai aur direct URL se /dashboard, /admin, /profile jaane ki koshish kare, to usko wapas /login par bhej dete ho
 
+
+
+
+Example:-
+
+children ke andar wahi component aata hai jo tum protect karna chahte ho, jaise <Dashboard /> ya agar token nahi mila to Dashboard render nahi hoga, login page aa jayega.
+function ProtectedRoute({ children }) {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+}
+
+
+<Route
+  path="/dashboard"
+  element={
+    <ProtectedRoute>
+      <Dashboard />
+    </ProtectedRoute>
+  }
+/>
+
+
+User -> /dashboard
+      -> token nahi mila
+      -> /login par redirect
+
+User -> login success
+      -> token save
+      -> ab /dashboard open
 
 
 
