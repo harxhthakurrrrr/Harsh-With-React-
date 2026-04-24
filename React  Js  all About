@@ -1,5 +1,5 @@
 What Is React Js :-
-React Ek JavaScript Ki Library Hai JO User Interface Baane Hai Liye Use Hote hai Jo Especially Website bane Ke Liye Hota hai
+React Ek JavaScript Ki Library Hai JO User Interface Baane Hai Liye Use Hote hai Jo Especially Website bane Ke Liye Hota hai 
 Pehle normal JavaScript me har baar manually HTML change karna padta tha
 document.getElementById("count").innerText = count;
 
