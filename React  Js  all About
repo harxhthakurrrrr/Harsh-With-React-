@@ -3356,3 +3356,76 @@ First time → API call
 Data → cache me store
 Next use → cache se data
 (Optional) background me update
+🌐 Public Route:-Public route wo hote hain jo sab users access kar sakte hain (login ho ya na ho)
+Examples: Login page, Signup page, Home page
+Example:-
+<Route path="/login" element={<Login />} />
+
+
+🔐 Private Route (Definition):-
+
+
+Private route wo hote hain jo sirf authenticated (login) user access kar sakta hai
+Agar user login nahi hai → redirect to login page
+
+
+
+Examples: Dashboard, Profile
+
+
+example:-
+import { Navigate } from "react-router-dom";
+
+const PrivateRoute = ({ children }) => {
+  const isAuth = localStorage.getItem("token");
+  return isAuth ? children : <Navigate to="/login" />;
+};
+
+🧩 Use in Routing:-
+<Route path="/dashboard" element={
+  <PrivateRoute>
+    <Dashboard />
+  </PrivateRoute>
+} />
+
+🔁 Public Route with Redirect (Optional):-
+const PublicRoute = ({ children }) => {
+  const isAuth = localStorage.getItem("token");
+  return isAuth ? <Navigate to="/dashboard" /> : children;
+};
+
+
+
+==========================================================================================================================================================================================
+
+Render Props:-Jab hum function ko prop me pass karte hain, jisse UI decide hota hai
+<DataProvider render={(data) => <h1>{data}</h1>} />
+
+
+Yaha render ek function hai
+Child us function ko call karta hai
+
+
+example:-
+parent :-
+function App() {
+  return (
+    <DataProvider 
+      render={(data) => <h1>Data: {data}</h1>} 
+    />
+  );
+}
+
+child 
+
+function DataProvider({ render }) {
+  const data = "Hello Harshu";
+
+  return (
+    <div>
+      {render(data)}
+    </div>
+  );
+}
+
+output :-Data: Hello Harshu
